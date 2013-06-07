@@ -12,7 +12,7 @@ class Response(HTTPResponse):
         self._method = None
         self.begin()
 
-def queryUpnp():
+def queryUpnp(ip):
     msg = ('M-SEARCH * HTTP/1.1\r\n' +
     'ST: ssdp:all\r\n' +
     'MX: 2\r\n' +
@@ -24,7 +24,7 @@ def queryUpnp():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 1)
     sock.settimeout(2)
-    sock.bind(('192.168.254.7', 1900))
+    sock.bind((ip, 1900))
     for time in xrange(2):
         sock.sendto(msg, ('239.255.255.250', 1900))
     try:
@@ -45,5 +45,6 @@ def queryUpnp():
     return
 
 if __name__ == '__main__':
-    queryUpnp()
+    localIp = '192.168.254.7'
+    queryUpnp(localIp)
     
