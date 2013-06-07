@@ -78,13 +78,13 @@ if __name__=='__main__':
     time.sleep(5)
 
     # switch to channel 15
-    remote.sendKey"KEY_1")
-    remote.sendKey"KEY_5")
-    remote.sendKey"KEY_ENTER")
+    remote.sendKey("KEY_1")
+    remote.sendKey("KEY_5")
+    remote.sendKey("KEY_ENTER")
 
     time.sleep(5)
 
     # switch to HDMI
-    remote.sendKey"KEY_HDMI")
+    remote.sendKey("KEY_HDMI")
     
         
