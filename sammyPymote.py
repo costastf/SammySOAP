@@ -55,7 +55,7 @@ class Remote(object):
             packet = chr(0x00) +\
                 chr(len(self.application)) + chr(0x00) + self.application +\
                 chr(len(message)) + chr(0x00) + message
-            cosk.send(packet)
+            sock.send(packet)
             message = chr(0x00) + chr(0x00) + chr(0x00) +\
                 chr(len(base64.b64encode(key))) + chr(0x00) + base64.b64encode(key)
             packet = chr(0x00) +\
