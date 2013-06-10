@@ -98,6 +98,6 @@ if __name__=='__main__':
     time.sleep(5)
 
     # switch to HDMI
-    remote.sendKeys(("KEY_HDMI"))
+    remote.sendKeys(("KEY_HDMI",))
     
         
