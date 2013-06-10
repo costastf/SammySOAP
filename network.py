@@ -28,10 +28,10 @@ class Network(object):
     def __init__(self):
         if sys.platform == 'linux2':
             self.gateway, self.interface = self.__getGatewayInterfaceL()
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.netmask = self.__getNetmaskL(self.sock, self.interface)
-            self.ipAddress = self.__getIpAddressL(self.sock, self.interface)
-            self.macAddress = self.__getMacAddressL(self.sock, self.interface)
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.netmask = self.__getNetmaskL(sock, self.interface)
+            self.ipAddress = self.__getIpAddressL(sock, self.interface)
+            self.macAddress = self.__getMacAddressL(sock, self.interface)
         elif sys.platform == 'win32':
             pass
         else:
