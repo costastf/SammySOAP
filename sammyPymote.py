@@ -81,7 +81,7 @@ class Remote(object):
 if __name__=='__main__':
     remote = Remote('192.168.254.4', 'LE32C650')
     # switch to tv
-    remote.sendKeys(("KEY_TV"))
+    remote.sendKeys(("KEY_TV",))
     # switch to channel one
     remote.sendKeys(["KEY_1"])
     remote.sendKeys(["KEY_ENTER"])
@@ -91,8 +91,8 @@ if __name__=='__main__':
 
     # switch to channel 15
     remote.sendKeys(["KEY_1"])
-    remote.sendKeys(("KEY_5"))
-    remote.sendKeys("KEY_ENTER")
+    remote.sendKeys(("KEY_5",))
+    remote.sendKeys(("KEY_ENTER",))
     # or 
     remote.sendKeys(("KEY_1", "KEY_5", "KEY_ENTER"))
     time.sleep(5)
