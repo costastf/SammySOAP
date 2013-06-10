@@ -40,7 +40,7 @@ class Network(object):
 
     def __getGatewayInterfaceL(self):
         route = Popen(['ip', 'route'], stdout=PIPE).stdout.read()
-        for line in route:
+        for line in route.splitlines():
             if line.startswith('default'):
                 route = line
                 break
