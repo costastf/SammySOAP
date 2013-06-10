@@ -45,6 +45,10 @@ def queryUpnp(ip):
     return
 
 if __name__ == '__main__':
-    localIp = '192.168.254.7'
+    try:
+        localIp = sys.argv[1]
+    except:
+        print 'please provide local ip as argument'
+        sys.exit(0)
     queryUpnp(localIp)
     
