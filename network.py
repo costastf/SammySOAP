@@ -21,7 +21,9 @@ __author__    = 'Costas Tyfoxylos'
 __docformat__ = 'plaintext'
 __date__      = '07/06/2013'
 
-import sys, fcntl, socket, struct, os
+import sys
+if sys.platform == 'linux2':
+    import fcntl, socket, struct
 from subprocess import Popen, PIPE
 
 class Network(object):
@@ -33,7 +35,15 @@ class Network(object):
             self.ipAddress = self.__getIpAddressL(sock, self.interface)
             self.macAddress = self.__getMacAddressL(sock, self.interface)
         elif sys.platform == 'win32':
-            pass
+            self.gateway, self.ipAddress = self.__getGatewayInterfaceIpW()
+            ipconfig =  Popen(['ipconfig','/all'], stdout=PIPE).stdout.read()
+            interface = ipconfig[ipconfig.find('Description'):ipconfig.find('Default Gateway')]
+            while self.ipAddress not in interface:
+                ipconfig = ipconfig.replace(interface, '')
+                interface = ipconfig[ipconfig.find('Description'):ipconfig.find('Default Gateway')]                
+            self.netmask = self.__getNetmaskW(interface, self.ipAddress)
+            self.macAddress = self.__getMacAddressW(interface, self.ipAddress)            
+            self.interface = self.__getInterfaceW(interface, self.ipAddress)                
         else:
             print 'Unknown platform'
             raise SystemExit
@@ -57,3 +67,39 @@ class Network(object):
     def __getMacAddressL(self, sock, interface):
         info = fcntl.ioctl(sock.fileno(), 0x8927,  struct.pack('256s', interface[:15]))
         return ''.join(['%02x-' % ord(char) for char in info[18:24]])[:-1]
+    
+    def __getGatewayInterfaceIpW(self):
+        route = Popen(['route','print'], stdout=PIPE).stdout.read()
+        for line in route.splitlines():
+            if 'Default Gateway' in line:
+                gateway = line.split(':')[1].strip()
+                break
+        text=route[route.find('Active Routes'):route.find('Default Routes')]
+        for line in text.splitlines()[2:-1]:
+            if line.split()[2].strip() == gateway:
+                ip = line.split()[3]
+                break
+        return gateway, ip
+    
+    def __getMacAddressW(self, ipconfig, ip):
+        for line in ipconfig.splitlines():
+            if line.strip().startswith('Physical'):
+                mac = line.split(':')[1].strip()
+                break        
+        return mac            
+    def __getNetmaskW(self, ipconfig, ip): 
+        for line in ipconfig.splitlines():
+            if line.strip().startswith('Subnet'):
+                netmask = line.split(':')[1].strip()
+                break
+        return netmask
+    
+    def __getInterfaceW(self, ipconfig, ip):
+        for line in ipconfig.splitlines():
+            if line.strip().startswith('Description'):
+                interface = line.split(':')[1].strip()
+                break
+        return interface    
+    
+    
+    
