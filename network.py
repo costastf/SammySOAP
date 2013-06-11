@@ -80,8 +80,11 @@ class Network(object):
             for line in route.splitlines():
                 if line.startswith('0.0.0.0'):
                     gateway = line.split()[2].strip()
-                    break            
-        text=route[route.find('Active Routes'):route.find('Default Routes')]
+                    break
+        if route.find('Default Routes') != -1:
+            text=route[route.find('Active Routes'):route.find('Default Routes')]
+        else:
+            text=route[route.find('Active Routes'):route.find('Persistent Routes')]
         for line in text.splitlines()[2:-1]:
             if line.split()[2].strip() == gateway:
                 ip = line.split()[3]
