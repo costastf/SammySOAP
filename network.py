@@ -103,11 +103,11 @@ class Network(object):
         
 if __name__=='__main__':
     network = Network()
-    print ('Primary Interface :', network.interface)
-    print ('Primary IP :', network.ipAddress)
-    print ('Mac Address :', network.macAddress)
-    print ('Network Mask :', network.netmask)
-    print ('Default Gateway :',network.gateway)
+    print("Primary Interface : {0}".format(network.interface))
+    print("Primary IP : {0}".format(network.ipAddress))
+    print("Mac Address : {0}".format(network.macAddress))
+    print("Network Mask : {0}".format(network.netmask))
+    print("Default Gateway : {0}".format(network.gateway))
 
     
     
