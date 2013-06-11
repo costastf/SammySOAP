@@ -79,7 +79,7 @@ class Network(object):
             text=route[route.find('Active Routes'):route.find('Default Routes')]
         else:
             text=route[route.find('Active Routes'):route.find('Persistent Routes')]
-        text = os.linesep.join([s for s in text.splitlines() if s])            
+        text = os.linesep.join([line for line in text.splitlines() if line])            
         for line in text.splitlines()[2:-1]:
             if line.split()[2].strip() == gateway:
                 ip = line.split()[3]
