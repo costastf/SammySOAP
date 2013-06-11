@@ -69,18 +69,11 @@ class Network(object):
         return ''.join(['%02x-' % ord(char) for char in info[18:24]])[:-1]
     
     def __getGatewayInterfaceIpW(self):
-        gateway = ''
         route = Popen(['route','print'], stdout=PIPE).stdout.read()
         for line in route.splitlines():
-            if 'Default Gateway' in line:
-                gateway = line.split(':')[1].strip()
+            if line.strip().startswith('0.0.0.0'):
+                gateway = line.split()[2].strip()
                 break
-        if not gateway: # apparently windows 7 don't announce default gateway on the route table. 
-        # small fix...
-            for line in route.splitlines():
-                if line.strip().startswith('0.0.0.0'):
-                    gateway = line.split()[2].strip()
-                    break
         xpMode = route.find('Default Routes')
         if xpMode != -1:
             text=route[route.find('Active Routes'):route.find('Default Routes')]
