@@ -77,10 +77,10 @@ class Network(object):
                 break
         if not gateway: # apparently windows 7 don't announce default gateway on the route table. 
         # small fix...
-        for line in route.splitlines():
-            if line.startswith('0.0.0.0'):
-                gateway = line.split()[2].strip()
-                break            
+            for line in route.splitlines():
+                if line.startswith('0.0.0.0'):
+                    gateway = line.split()[2].strip()
+                    break            
         text=route[route.find('Active Routes'):route.find('Default Routes')]
         for line in text.splitlines()[2:-1]:
             if line.split()[2].strip() == gateway:
