@@ -21,7 +21,7 @@ __author__    = 'Costas Tyfoxylos'
 __docformat__ = 'plaintext'
 __date__      = '07/06/2013'
 
-import sys
+import sys, os
 if sys.platform == 'linux2':
     import fcntl, socket, struct
 from subprocess import Popen, PIPE
@@ -78,13 +78,15 @@ class Network(object):
         if not gateway: # apparently windows 7 don't announce default gateway on the route table. 
         # small fix...
             for line in route.splitlines():
-                if line.startswith('0.0.0.0'):
+                if line.strip().startswith('0.0.0.0'):
                     gateway = line.split()[2].strip()
                     break
-        if route.find('Default Routes') != -1:
+        xpMode = route.find('Default Routes')
+        if xpMode != -1:
             text=route[route.find('Active Routes'):route.find('Default Routes')]
         else:
             text=route[route.find('Active Routes'):route.find('Persistent Routes')]
+        text = os.linesep.join([s for s in text.splitlines() if s])            
         for line in text.splitlines()[2:-1]:
             if line.split()[2].strip() == gateway:
                 ip = line.split()[3]
