@@ -100,6 +100,15 @@ class Network(object):
                 interface = line.split(':')[1].strip()
                 break
         return interface    
+        
+if __name__=='__main__':
+    network = Network()
+    print ('Primary Interface :', network.interface)
+    print ('Primary IP :', network.ipAddress)
+    print ('Mac Address :', network.macAddress)
+    print ('Network Mask :', network.netmask)
+    print ('Default Gateway :',network.gateway)
+
     
     
     
