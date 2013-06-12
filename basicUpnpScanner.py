@@ -19,13 +19,12 @@ def queryUpnp(ip):
     'MAN: "ssdp:discover"\r\n' +
     'HOST: 239.255.255.250:1900\r\n\r\n')
     services = []
-    socket.setdefaulttimeout(1)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 1)
-    sock.settimeout(2)
+    sock.settimeout(1)
     sock.bind((ip, 1900))
-    for time in xrange(2):
+    for time in xrange(5):
         sock.sendto(msg, ('239.255.255.250', 1900))
     try:
         while sock:
