@@ -45,10 +45,7 @@ def queryUpnp(ip):
     return
 
 if __name__ == '__main__':
-    try:
-        localIp = sys.argv[1]
-    except:
-        print 'please provide local ip as argument'
-        sys.exit(0)
-    queryUpnp(localIp)
+    from network import Network
+    network = Network()
+    queryUpnp(network.ipAddress)
     
